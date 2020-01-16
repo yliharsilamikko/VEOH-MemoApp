@@ -1,4 +1,5 @@
 const http = require('http');
+const fs = require('fs');
 
 const server = http.createServer((req, res) => {
     const url = req.url;
@@ -19,6 +20,27 @@ const server = http.createServer((req, res) => {
         `);
         res.statusCode = 200; //Ok
         res.end();
+        return;
+    } else if (url === '/add-note') {
+        console.log('/add-note');
+        const chunks = [];
+        req.on('data', (chunk) => {
+            chunks.push(chunk);
+        });
+
+        req.on('end', () => {
+            const body = Buffer.concat(chunks);
+            console.log(body);
+            res.statusCode = 303; //Redirect
+            res.setHeader('Location', '/');
+            res.end();
+        });
+        return;
+    } else if (url === '/favicon.ico') {
+        fs.readFile('./favicon.ico', (err, data) => {
+            res.write(data);
+            res.end();
+        });
         return;
     }
 
