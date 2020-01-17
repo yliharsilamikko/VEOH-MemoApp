@@ -8,6 +8,7 @@ const server = http.createServer((req, res) => {
     const method = req.method;
     console.log(`HTTP request received: url=${url} , method=${method}`);
 
+
     if (url === '/') {
         res.write(`
         <html>
