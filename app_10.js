@@ -19,10 +19,10 @@ const server = http.createServer((req, res) => {
 
         notes.forEach((value, index) => {
             res.write(`
-            <div>note:${value}, index: ${index}
+            <div>${value}
             <form action="delete-note" method="POST">
                 <input type="hidden" name="index", value="${index}">
-                <button type="submit">Delete</button>
+                <button type="submit" class="delete_button">Delete</button>
             </form>
             </div>
             `);
@@ -31,11 +31,7 @@ const server = http.createServer((req, res) => {
         res.write(`
             <form action="add-note" method="POST">
                 <input type="text" name="note">
-                <button type="submit">Add note</button>
-            </form>
-            <form action="delete-note" method="POST">
-                <input type="number" name="index">
-                <button type="submit">Delete note</button>
+                <button type="submit" class="add_button">Add note</button>
             </form>
         </body>
         </html>
@@ -78,6 +74,12 @@ const server = http.createServer((req, res) => {
         return;
     } else if (url === '/favicon.ico') {
         fs.readFile('./favicon.ico', (err, data) => {
+            res.write(data);
+            res.end();
+        });
+        return;
+    } else if (url === '/style.css') {
+        fs.readFile('./style.css', (err, data) => {
             res.write(data);
             res.end();
         });
